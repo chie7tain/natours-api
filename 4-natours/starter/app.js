@@ -19,6 +19,15 @@ app.get('/api/v1/tours', (req, res) => {
   });
 });
 
+// get a single tour
+
+app.get('/api/v1/tours/:id/:users/:x', (req, res) => {
+  console.log(req.params);
+  res.status(200).json({
+    status: 'success',
+  });
+});
+
 // post a new tour
 app.post('/api/v1/tours', (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
@@ -38,6 +47,7 @@ app.post('/api/v1/tours', (req, res) => {
     }
   );
 });
+
 const port = 3000;
 app.listen(port, () => {
   console.log(`listening on port ${port}...`);
