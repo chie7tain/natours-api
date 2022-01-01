@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const fs = require('fs');
 const app = express();
 app.use(express.json());
-app.use(morgan("dev"))
+app.use(morgan('dev'));
 //get data
 let tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, 'utf-8')
@@ -93,29 +93,52 @@ const deleteTour = (req, res) => {
   }
 };
 
+const getAllUsers = (req, res) => {
+  res.send({
+    message: 'not built yet',
+  });
+};
+const getUser = (req, res) => {
+  res.send({
+    message: 'not built yet',
+  });
+};
+const createUser = (req, res) => {
+  res.send({
+    message: 'not built yet',
+  });
+};
+const updateUser = (req, res) => {
+  res.send({
+    message: 'not built yet',
+  });
+};
+const deleteUser = (req, res) => {
+  res.send({
+    message: 'not built yet',
+  });
+};
+
 // get all tours
-// app.get('/api/v1/tours', getAllTours);
-
-// get a single tour
-
-// app.get('/api/v1/tours/:id', getTour);
-
 // post a new tour
-// app.post('/api/v1/tours', createTour);
-
-// update a tour
-// app.patch('/api/v1/tours/:id', updateTour);
-
-// delete a tour
-// app.delete('/api/v1/tours/:id', deleteTour);
-
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 
+// get a single tour
+// update a tour
+// delete a tour
 app
   .route('/api/v1/tours/:id')
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
+
+app
+  .route('/api/v1/users/:id')
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 const port = 3000;
 app.listen(port, () => {
