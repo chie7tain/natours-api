@@ -21,11 +21,23 @@ app.get('/api/v1/tours', (req, res) => {
 
 // get a single tour
 
-app.get('/api/v1/tours/:id/:users/:x', (req, res) => {
+app.get('/api/v1/tours/:id', (req, res) => {
   console.log(req.params);
-  res.status(200).json({
-    status: 'success',
-  });
+  const id = req.params.id * 1;
+  const tour = tours.find((el) => el.id === parseInt(req.params.id));
+  if (!tour || id > tours.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID or tour not found with that ID',
+    });
+  } else {
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tour,
+      },
+    });
+  }
 });
 
 // post a new tour
