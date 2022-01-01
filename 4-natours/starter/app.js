@@ -1,15 +1,18 @@
 const express = require('express');
-
+const morgan = require('morgan');
 const fs = require('fs');
 const app = express();
 app.use(express.json());
-
+app.use(morgan("dev"))
+//get data
 let tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, 'utf-8')
 );
 
 const getAllTours = (req, res) => {
+  console.log(req.requestTime);
   res.status(200).json({
+    requestTime: req.requestTime,
     status: 'success',
     results: tours.length,
     data: {
@@ -95,18 +98,24 @@ const deleteTour = (req, res) => {
 
 // get a single tour
 
-app.get('/api/v1/tours/:id', getTour);
+// app.get('/api/v1/tours/:id', getTour);
 
 // post a new tour
 // app.post('/api/v1/tours', createTour);
 
 // update a tour
-app.patch('/api/v1/tours/:id', updateTour);
+// app.patch('/api/v1/tours/:id', updateTour);
 
 // delete a tour
-app.delete('/api/v1/tours/:id', deleteTour);
+// app.delete('/api/v1/tours/:id', deleteTour);
 
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
+
+app
+  .route('/api/v1/tours/:id')
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
 
 const port = 3000;
 app.listen(port, () => {
