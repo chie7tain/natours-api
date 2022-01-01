@@ -79,7 +79,22 @@ app.patch('/api/v1/tours/:id', (req, res) => {
     });
   }
 });
-app.delete("")
+app.delete('/api/v1/tours/:id', (req, res) => {
+  const id = req.params.id * 1;
+  let tour = tours.find((el) => el.id === id);
+  if (!tour || id > tours.length) {
+    res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID or tour not found with that ID',
+    });
+  } else {
+    tours.splice(id, 1);
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
+  }
+});
 const port = 3000;
 app.listen(port, () => {
   console.log(`listening on port ${port}...`);
