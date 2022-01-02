@@ -1,6 +1,10 @@
 const express = require('express');
+
 const tourRouter = express.Router();
 const tourController = require('../controllers/tourController');
+
+// check Id
+tourRouter.param('id', tourController.checkID);
 // get all tours
 // post a new tour
 tourRouter

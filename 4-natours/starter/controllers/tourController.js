@@ -4,6 +4,16 @@ let tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`, 'utf-8')
 );
 
+const checkID = (req, res, next, val) => {
+  if (val * 1 > tours.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID or tour not found with that ID',
+    });
+  }
+  next();
+};
+
 const getAllTours = (req, res) => {
   console.log(req.requestTime);
   res.status(200).json({
@@ -19,19 +29,12 @@ const getAllTours = (req, res) => {
 const getTour = (req, res) => {
   const id = req.params.id * 1;
   const tour = tours.find((el) => el.id === id);
-  if (!tour || id > tours.length) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid ID or tour not found with that ID',
-    });
-  } else {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        tour,
-      },
-    });
-  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour,
+    },
+  });
 };
 
 const createTour = (req, res) => {
@@ -56,36 +59,22 @@ const createTour = (req, res) => {
 const updateTour = (req, res) => {
   const id = req.params.id * 1;
   let tour = tours.find((el) => el.id === id);
-  if (!tour || id > tours.length) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'Invalid ID or tour not found with that ID',
-    });
-  } else {
-    tours[id] = { ...tour, ...req.body };
-    res.status(200).json({
-      status: 'success',
-      data: {
-        tours,
-      },
-    });
-  }
+
+  tours[id] = { ...tour, ...req.body };
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tours,
+    },
+  });
 };
 const deleteTour = (req, res) => {
   const id = req.params.id * 1;
-  let tour = tours.find((el) => el.id === id);
-  if (!tour || id > tours.length) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'Invalid ID or tour not found with that ID',
-    });
-  } else {
-    tours.splice(id, 1);
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
-  }
+  tours.splice(id, 1);
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
 };
 
 module.exports = {
@@ -94,4 +83,5 @@ module.exports = {
   createTour,
   updateTour,
   deleteTour,
+  checkID,
 };
