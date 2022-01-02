@@ -1,33 +1,16 @@
 const express = require('express');
-
 const userRouter = express.Router();
 
-const getAllUsers = (req, res) => {
-  res.send({
-    message: 'not built yet',
-  });
-};
-const getUser = (req, res) => {
-  res.send({
-    message: 'not built yet',
-  });
-};
-const createUser = (req, res) => {
-  res.send({
-    message: 'not built yet',
-  });
-};
-const updateUser = (req, res) => {
-  res.send({
-    message: 'not built yet',
-  });
-};
-const deleteUser = (req, res) => {
-  res.send({
-    message: 'not built yet',
-  });
-};
-userRouter.route('/').get(getAllUsers).post(createUser);
-userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+const userController = require('../controllers/userController');
+
+userRouter
+  .route('/')
+  .get(userController.getAllUsers)
+  .post(userController.createUser);
+userRouter
+  .route('/:id')
+  .get(userController.getUser)
+  .patch(userController.updateUser)
+  .delete(userController.deleteUser);
 
 module.exports = userRouter;
