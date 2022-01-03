@@ -4,7 +4,8 @@
   "description": "natours api",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start:dev": "nodemon server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js"
   },
   "author": "chie7tain",
   "license": "MIT",
